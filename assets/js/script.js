@@ -141,7 +141,25 @@ function handleAddTask(event){
 
 // Todo: create a function to handle deleting a task
 function handleDeleteTask(event) {
+    //event.preventDefault();
 
+    const taskId = $(this).attr('data-task-id');
+    console.log(`taskId = ${taskId}`);
+    // TODO: Loop through the projects array and remove the project with the matching id.
+    for (let task of taskList) {
+        console.log(`task.id = ${task.id}`);
+        if (task.id === taskId) {
+            console.log(task);
+            taskList.splice(taskList.indexOf(task), 1);
+            console.log(taskList);
+        }
+    }
+
+    // ? We will use our helper function to save the projects to localStorage
+    localStorage.setItem('tasks', JSON.stringify(taskList));
+
+    // ? Here we use our other function to print projects back to the screen
+    renderTaskList();
 }
 
 // Todo: create a function to handle dropping a task into a new status lane
