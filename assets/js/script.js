@@ -3,11 +3,13 @@ let taskList = JSON.parse(localStorage.getItem("tasks"));
 let nextId = JSON.parse(localStorage.getItem("nextId"));
 
 // Todo: create a function to generate a unique task id
+// Random ID generator - TODO check
 function generateTaskId() {
-
+    return crypto.randomUUID();
 }
 
 // Todo: create a function to create a task card
+// Create task elements - TODO
 function createTaskCard(task) {
 
 }
@@ -66,12 +68,34 @@ function renderTaskList() {
 }
 
 // Todo: create a function to handle adding a new task
+// Add new task - TODO check
 function handleAddTask(event){
+    event.preventDefault();
+    console.log("hello");
 
+    const taskTitle = $('#taskTitle').val();
+    const taskDueDate = $('#taskDueDate').val();
+    const taskDescription = $('#taskDescription').val();
+
+    const task = {
+        id: generateTaskId(),
+        title: taskTitle,
+        dueDate: taskDueDate,
+        description: taskDescription,
+        status: 'to-do'
+    }
+
+    taskList.push(task);
+    localStorage.setItem('tasks', JSON.stringify(taskList));
+    renderTaskList();
+
+    $('#taskTitle').val('');
+    $('#taskDueDate').val('');
+    $('#taskDescription').val('');
 }
 
 // Todo: create a function to handle deleting a task
-function handleDeleteTask(event){
+function handleDeleteTask(event) {
 
 }
 
@@ -88,6 +112,14 @@ function handleDrop(event, ui) {
 $(document).ready(function () {
     // ? Print project data to the screen on page load if there is any
     renderTaskList();
+
+    // ? Add event listener to the form element, listen for a submit event, and call the `handleProjectFormSubmit` function.
+    // Form submit - works, TODO logic
+    $('#taskForm').on('submit', handleAddTask);
+
+    // TODO: Add an event listener to listen for the delete buttons. Use event delegation to call the `handleDeleteProject` function.
+    // Button delete - TODO
+    //$('').on('click', '.btn-delete-project', handleDeleteTask);
 
     // ? Make lanes droppable
     $('.lane').droppable({
