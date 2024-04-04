@@ -12,6 +12,54 @@ function generateTaskId() {
 // Create task elements - TODO
 function createTaskCard(task) {
 
+    const cardEl = $('<div>')
+        .addClass('card task-card draggable my-3')
+        .attr('data-task-id', task.id);
+
+    const cardHeaderEl = $('<div>')
+        .addClass('card-header h4')
+        .text(task.title);
+
+    const cardBodyEl = $('<div>')
+        .addClass('card-body');
+
+    const cardDescriptionEl = $('<p>')
+        .addClass('card-text')
+        .text(task.description);
+
+    const cardDueDateEl = $('<p>')
+        .addClass('card-text')
+        .text(task.dueDate);
+
+    const buttonEl = $('<button>')
+        .addClass('btn btn-danger delete')
+        .text('Delete')
+        .attr('data-task-id', task.id);
+
+    buttonEl.on('click', handleDeleteTask);
+
+    // ? Sets the card background color based on due date. Only apply the styles if the dueDate exists and the status is not done.
+    if (task.dueDate && task.status !== 'done') {
+        const now = dayjs();
+        const taskDueDate = dayjs(task.dueDate, 'DD/MM/YYYY');
+
+        // ? If the task is due today, make the card yellow. If it is overdue, make it red.
+        if (now.isSame(taskDueDate, 'day')) {
+            cardEl.addClass('bg-warning text-white');
+        }
+        
+        else if (now.isAfter(taskDueDate)) {
+            cardEl.addClass('bg-danger text-white');
+            buttonEl.addClass('border-light');
+        }
+    }
+
+    // TODO: Append the card description, card due date, and card delete button to the card body.
+    cardBodyEl.append(cardDescriptionEl, cardDueDateEl, buttonEl);
+    // TODO: Append the card header and card body to the card.
+    cardEl.append(cardHeaderEl, cardBodyEl);
+    // ? Return the card so it can be appended to the correct lane.
+    return cardEl;
 }
 
 // Todo: create a function to render the task list and make cards draggable
@@ -19,10 +67,8 @@ function createTaskCard(task) {
 // List appending - TODO check
 // Draggable feature - TODO check
 function renderTaskList() {
-    let tasks = JSON.parse(localStorage.getItem('tasks'))
-
-    if (!tasks) {
-        tasks = [];
+    if (!taskList) {
+        taskList = [];
     }
 
     // ? Empty existing project cards out of the lanes
@@ -35,7 +81,7 @@ function renderTaskList() {
     const doneList = $('#done-cards');
     doneList.empty();
 
-    for (let task of tasks) {
+    for (let task of taskList) {
         if(task.status === 'to-do') {
             todoList.append(createTaskCard(task));
         }
@@ -71,7 +117,6 @@ function renderTaskList() {
 // Add new task - TODO check
 function handleAddTask(event){
     event.preventDefault();
-    console.log("hello");
 
     const taskTitle = $('#taskTitle').val();
     const taskDueDate = $('#taskDueDate').val();
