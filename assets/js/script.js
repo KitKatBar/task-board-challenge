@@ -116,7 +116,7 @@ function renderTaskList() {
 // Todo: create a function to handle adding a new task
 // Add new task - TODO check
 function handleAddTask(event){
-    event.preventDefault();
+    //event.preventDefault();
 
     const taskTitle = $('#taskTitle').val();
     const taskDueDate = $('#taskDueDate').val();
@@ -141,7 +141,7 @@ function handleAddTask(event){
 
 // Todo: create a function to handle deleting a task
 function handleDeleteTask(event) {
-    //event.preventDefault();
+    event.preventDefault();
 
     const taskId = $(this).attr('data-task-id');
     console.log(`taskId = ${taskId}`);
@@ -193,7 +193,49 @@ $(document).ready(function () {
 
     // ? Add event listener to the form element, listen for a submit event, and call the `handleProjectFormSubmit` function.
     // Form submit - works, TODO logic
+    // $('#taskForm').validate({
+    //     rules: {
+    //       taskTitle: {
+    //         required: true
+    //       },
+    //       taskDueDate: {
+    //         required: true
+    //       },
+    //       taskDescription: {
+    //         required: true
+    //       },
+    //       action: "required"
+    //     },
+    //     messages: {
+    //         taskTitle: {
+    //         required: "Please enter some data",
+    //       },
+    //       taskDueDate: {
+    //         required: "Please enter some data",
+    //       },
+    //       taskDescription: {
+    //         required: "Please enter some data",
+    //       },
+    //       action: "Please provide some data"
+    //     },
+    //     //errorElement: $('#taskForm').addClass('was-validated')
+    //   }).addClass('was-validated').on('submit', handleAddTask);
+    
     $('#taskForm').on('submit', handleAddTask);
+    //$('#taskForm').on('submit', validateForm);
+    
+    // 'use strict'
+    
+    // $('#taskForm').on('submit', function (event) {
+    //     if (!$('#taskForm').checkValidity()) {
+    //       event.preventDefault();
+    //       event.stopPropagation();
+    //       console.log("hello");
+    //     }
+
+    //     console.log("hello");
+    //     $('#taskForm').classList.add('was-validated');
+    //   }, false)
 
     // TODO: Add an event listener to listen for the delete buttons. Use event delegation to call the `handleDeleteProject` function.
     // Button delete - TODO
@@ -209,4 +251,25 @@ $(document).ready(function () {
         changeMonth: true,
         changeYear: true,
     });
+
+    // $('#taskForm').validate({
+    //     rules: {
+    //       taskTitle: {
+    //         required: true
+    //       },
+    //       taskDueDate: {
+    //         required: true
+    //       },
+    //       action: "required"
+    //     },
+    //     messages: {
+    //         taskTitle: {
+    //         required: "Please enter some data",
+    //       },
+    //       taskDueDate: {
+    //         required: "Please enter some data",
+    //       },
+    //       action: "Please provide some data"
+    //     }
+    //   });
 });
